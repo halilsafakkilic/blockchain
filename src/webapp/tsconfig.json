@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "esnext",
     "lib": [
       "dom",
       "dom.iterable",
@@ -18,7 +18,25 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "rootDir": ".",
+    "baseUrl": "./src",
+    "paths": {
+      "@config": [
+        "config/index"
+      ]
+    },
+    "outDir": "./dist/",
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "noUnusedLocals": true,
+    "removeComments": true,
+    "alwaysStrict": true,
+    "allowUnreachableCode": false,
+    "noUnusedParameters": true,
+    "importHelpers": true
   },
   "include": [
     "src"
