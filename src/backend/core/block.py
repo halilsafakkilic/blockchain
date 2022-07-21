@@ -16,15 +16,15 @@ class Block:
         self.mixHash = str(uuid.uuid4())
         self.reward = reward
 
-        self.transactions = None
-        self.fee = None
+        self.transactions = []
+        self.fee = 0
         self.nonce = 0
-        self.hash = None
+        self.hash = ''
 
         self.payload = {
             'status': 'earliest',
-            'minedBy': None,
-            'hash': None
+            'minedBy': '',
+            'hash': ''
         }
 
     def is_mined(self, address, hash):
@@ -35,7 +35,7 @@ class Block:
 
         hash_content = hash + '|' + json.dumps(self.payload, sort_keys=True)
 
-        self.payload['hash'] = keccak_256(hash_content.encode()).digest().hex()
+        self.payload['signature'] = keccak_256(hash_content.encode()).digest().hex()
 
     def set_transactions(self, transactions):
         self.transactions = transactions

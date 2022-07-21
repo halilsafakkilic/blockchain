@@ -1,11 +1,9 @@
-from math import floor
-
 from core.block import Block
 
 
 class Blockchain:
-    DIFFICULTY_BOMB = 10
-    REWARD_HALVING = 5
+    DIFFICULTY_BOMB = 30
+    REWARD_HALVING = 10
 
     def __init__(self):
         self.chain = []

@@ -1,13 +1,15 @@
 import json
 
 from flask import Flask, request
+from flask_cors import CORS
 from sha3 import keccak_256
 
+from core.blockchain import Blockchain
 from utils.common import generate_keys
 from utils.helpers import coin_transaction, data_transaction, data_seeder
-from core.blockchain import Blockchain
 
 app = Flask(__name__)
+CORS(app)
 
 blockchain = Blockchain()
 
@@ -20,11 +22,6 @@ def json_response(data):
     )
 
     return response
-
-
-@app.route('/status', methods=['GET'])
-def hello_world():
-    return json_response({})
 
 
 @app.route('/hash', methods=['POST'])
@@ -60,19 +57,16 @@ def chain():
 
     return json_response({
         'accounts': blockchain.accounts,
-        'waiting_block': waiting_blocks,
-        'waiting_transactions': waiting_transactions,
-        'chain': {
-            'items': chain_data,
-            'length': len(chain_data),
-        },
+        'waiting_blocks': waiting_blocks[::-1],
+        'waiting_transactions': waiting_transactions[::-1],
+        'chain': chain_data[::-1],
     })
 
 
 @app.route('/account/<address>', methods=['GET'])
 def account(address):
     if address not in blockchain.accounts:
-        blockchain.account_balance(address, 0)
+        blockchain.account_balance(address, 0.0)
 
     return json_response(blockchain.accounts[address])
 
@@ -103,7 +97,7 @@ def mine():
     return json_response({})
 
 
-@app.route('/seeder', methods=['GET'])
+@app.route('/seeder', methods=['POST'])
 def seeder():
     data_seeder(blockchain)
 
